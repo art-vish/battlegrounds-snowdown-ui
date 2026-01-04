@@ -1,12 +1,16 @@
-import { useCallback, useRef, useEffect } from 'react';
+import { useCallback, useRef, useEffect, useState } from 'react';
 
 // Sound URLs - using free sound effects
 const SNIPER_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2771/2771-preview.mp3';
 const EXPLOSION_SOUND_URL = 'https://assets.mixkit.co/active_storage/sfx/2803/2803-preview.mp3';
+// Background music - using a free gaming music track
+const BACKGROUND_MUSIC_URL = 'https://assets.mixkit.co/music/preview/mixkit-game-show-987.mp3';
 
 export const useGameSounds = () => {
   const sniperAudioRef = useRef<HTMLAudioElement | null>(null);
   const explosionAudioRef = useRef<HTMLAudioElement | null>(null);
+  const backgroundMusicRef = useRef<HTMLAudioElement | null>(null);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   useEffect(() => {
     // Preload sounds
@@ -16,7 +20,15 @@ export const useGameSounds = () => {
     explosionAudioRef.current = new Audio(EXPLOSION_SOUND_URL);
     explosionAudioRef.current.volume = 0.5;
 
+    backgroundMusicRef.current = new Audio(BACKGROUND_MUSIC_URL);
+    backgroundMusicRef.current.volume = 0.3;
+    backgroundMusicRef.current.loop = true;
+
     return () => {
+      if (backgroundMusicRef.current) {
+        backgroundMusicRef.current.pause();
+        backgroundMusicRef.current = null;
+      }
       sniperAudioRef.current = null;
       explosionAudioRef.current = null;
     };
@@ -41,5 +53,24 @@ export const useGameSounds = () => {
     }
   }, []);
 
-  return { playSniperSound, playExplosionSound };
+  const toggleBackgroundMusic = useCallback(() => {
+    if (!backgroundMusicRef.current) return;
+
+    if (isMusicPlaying) {
+      backgroundMusicRef.current.pause();
+      setIsMusicPlaying(false);
+    } else {
+      backgroundMusicRef.current.play().catch(() => {
+        console.log('Music autoplay blocked by browser');
+      });
+      setIsMusicPlaying(true);
+    }
+  }, [isMusicPlaying]);
+
+  return { 
+    playSniperSound, 
+    playExplosionSound, 
+    toggleBackgroundMusic, 
+    isMusicPlaying 
+  };
 };

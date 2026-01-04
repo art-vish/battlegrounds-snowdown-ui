@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Snowflakes } from '@/components/Snowflakes';
 import { PlayerScores, Player } from '@/components/PlayerScores';
@@ -21,7 +21,7 @@ const Index = () => {
     questionIndex: number;
   } | null>(null);
 
-  const { playSniperSound, playExplosionSound } = useGameSounds();
+  const { playSniperSound, playExplosionSound, toggleBackgroundMusic, isMusicPlaying } = useGameSounds();
 
   const handleSelectQuestion = useCallback((categoryId: string, questionIndex: number) => {
     playSniperSound();
@@ -73,12 +73,29 @@ const Index = () => {
             🎮 PUBG QUIZ
           </h1>
           <p className="text-lg sm:text-xl text-foreground/80 military-text">
-            🎄 Slavibara's XmaS BootCamp 2025 🎄
+            🎄 Slavibara's XmaS BootCamp 2026 🎄
           </p>
         </div>
 
-        {/* Reset Button */}
-        <div className="flex justify-end mb-4">
+        {/* Reset Button and Music Toggle */}
+        <div className="flex justify-between mb-4">
+          <Button
+            onClick={toggleBackgroundMusic}
+            variant="outline"
+            className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+          >
+            {isMusicPlaying ? (
+              <>
+                <Volume2 className="w-4 h-4 mr-2" />
+                Музыка вкл
+              </>
+            ) : (
+              <>
+                <VolumeX className="w-4 h-4 mr-2" />
+                Музыка выкл
+              </>
+            )}
+          </Button>
           <Button
             onClick={handleReset}
             variant="outline"
