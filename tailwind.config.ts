@@ -57,6 +57,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        pubg: {
+          orange: "hsl(var(--pubg-orange))",
+          yellow: "hsl(var(--pubg-yellow))",
+          military: "hsl(var(--pubg-military))",
+          dark: "hsl(var(--pubg-dark))",
+          green: "hsl(var(--pubg-green))",
+          red: "hsl(var(--pubg-red))",
+        },
+        timer: {
+          safe: "hsl(var(--timer-safe))",
+          warning: "hsl(var(--timer-warning))",
+          danger: "hsl(var(--timer-danger))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -80,10 +93,18 @@ export default {
             height: "0",
           },
         },
+        pulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        pulse: "pulse 1s ease-in-out infinite",
+      },
+      fontFamily: {
+        pubg: ["'Bebas Neue'", "sans-serif"],
       },
     },
   },
